@@ -1,0 +1,19 @@
+{
+  "/_app": "pages/_app.js",
+  "/api/auth/callback": "pages/api/auth/callback.js",
+  "/api/auth/dev": "pages/api/auth/dev.js",
+  "/api/auth/login": "pages/api/auth/login.js",
+  "/api/auth/logout": "pages/api/auth/logout.js",
+  "/api/sessions/[sid]": "pages/api/sessions/[sid].js",
+  "/api/sessions/[sid]/profile": "pages/api/sessions/[sid]/profile.js",
+  "/api/sessions/[sid]/tracks/current": "pages/api/sessions/[sid]/tracks/current.js",
+  "/api/sessions/[sid]/tracks": "pages/api/sessions/[sid]/tracks.js",
+  "/api/sessions": "pages/api/sessions.js",
+  "/": "pages/index.html",
+  "/sessions/[sid]": "pages/sessions/[sid].html",
+  "/sessions/[sid]/queue": "pages/sessions/[sid]/queue.html",
+  "/sessions/[sid]/wish": "pages/sessions/[sid]/wish.html",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}

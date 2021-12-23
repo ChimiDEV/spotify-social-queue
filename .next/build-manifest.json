@@ -1,0 +1,61 @@
+{
+  "polyfillFiles": [
+    "static/chunks/polyfills-5cd94c89d3acac5f.js"
+  ],
+  "devFiles": [],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [
+    "static/kWcHnetPLkiACKP9_4cWr/_buildManifest.js",
+    "static/kWcHnetPLkiACKP9_4cWr/_ssgManifest.js",
+    "static/kWcHnetPLkiACKP9_4cWr/_middlewareManifest.js"
+  ],
+  "pages": {
+    "/": [
+      "static/chunks/webpack-514908bffb652963.js",
+      "static/chunks/framework-91d7f78b5b4003c8.js",
+      "static/chunks/main-deb592798b94b511.js",
+      "static/chunks/289-74a25a650cec70b1.js",
+      "static/chunks/pages/index-677e19a097651a8f.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack-514908bffb652963.js",
+      "static/chunks/framework-91d7f78b5b4003c8.js",
+      "static/chunks/main-deb592798b94b511.js",
+      "static/css/5f729ba9e962f48b.css",
+      "static/chunks/pages/_app-9177f83c4bee38f5.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack-514908bffb652963.js",
+      "static/chunks/framework-91d7f78b5b4003c8.js",
+      "static/chunks/main-deb592798b94b511.js",
+      "static/chunks/pages/_error-2280fa386d040b66.js"
+    ],
+    "/sessions/[sid]": [
+      "static/chunks/webpack-514908bffb652963.js",
+      "static/chunks/framework-91d7f78b5b4003c8.js",
+      "static/chunks/main-deb592798b94b511.js",
+      "static/chunks/289-74a25a650cec70b1.js",
+      "static/chunks/549-459cf568525aff09.js",
+      "static/chunks/561-18af4cea539c8cd1.js",
+      "static/chunks/pages/sessions/[sid]-de5c1c7b35c3851e.js"
+    ],
+    "/sessions/[sid]/queue": [
+      "static/chunks/webpack-514908bffb652963.js",
+      "static/chunks/framework-91d7f78b5b4003c8.js",
+      "static/chunks/main-deb592798b94b511.js",
+      "static/chunks/289-74a25a650cec70b1.js",
+      "static/chunks/549-459cf568525aff09.js",
+      "static/chunks/pages/sessions/[sid]/queue-34cf134004677183.js"
+    ],
+    "/sessions/[sid]/wish": [
+      "static/chunks/webpack-514908bffb652963.js",
+      "static/chunks/framework-91d7f78b5b4003c8.js",
+      "static/chunks/main-deb592798b94b511.js",
+      "static/chunks/289-74a25a650cec70b1.js",
+      "static/chunks/549-459cf568525aff09.js",
+      "static/chunks/561-18af4cea539c8cd1.js",
+      "static/chunks/pages/sessions/[sid]/wish-a5709b28b50f1fb3.js"
+    ]
+  },
+  "ampFirstPages": []
+}
