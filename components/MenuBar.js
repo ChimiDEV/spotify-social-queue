@@ -1,10 +1,12 @@
-import { Box, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { PlaylistAdd, QueueMusic, AddBox } from '@mui/icons-material';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 const byValue = ['wish', 'queue', 'poll'];
 const byPath = { '/wish': 0, '/queue': 1, '/poll': 2 };
+
+// To be updated
 
 /**
  *
@@ -41,11 +43,11 @@ export default function MenuBar() {
         icon={<QueueMusic />}
         sx={{ color: '#fff' }}
       />
-      <BottomNavigationAction
-        label="Playlist voting"
+      {/* <BottomNavigationAction
+        label="Einstellungen"
         icon={<AddBox />}
         sx={{ color: '#fff' }}
-      />
+      /> */}
     </BottomNavigation>
   );
 }

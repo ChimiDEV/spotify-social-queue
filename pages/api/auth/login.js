@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   session.spotifyState = state;
 
   if (process.env.NODE_ENV === 'development') {
-    return res.redirect('/auth/dev');
+    return res.redirect('/api/auth/dev');
   }
 
   return res.redirect(

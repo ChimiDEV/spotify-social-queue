@@ -4,22 +4,23 @@ import { Box, Button, Modal, TextField } from '@mui/material';
 import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ClipboardModal from '../../../components/ClipboardModal';
+import { useRouter } from 'next/router';
 
 const extractSpotifyId = (url) => url.split('/').pop().split('?')[0];
 
-const putInQueue = async (shareUrl) => {
+const putInQueue = async (sid, shareUrl) => {
   if (!shareUrl.startsWith('https://open.spotify.com/track')) {
     // invalid spotify url
     return;
   }
 
-  await fetch(`/api/playlist?song_id=${extractSpotifyId(shareUrl)}`, {
+  await fetch(`/api/sessions/${sid}?track_id=${extractSpotifyId(shareUrl)}`, {
     method: 'POST',
   });
 };
 
-const searchForSongs = async (searchValue) => {
-  const res = await fetch(`/api/tracks?q=${searchValue}`);
+const searchForSongs = async (sid, searchValue) => {
+  const res = await fetch(`/api/sessions/${sid}/tracks?q=${searchValue}`);
 
   return res.json();
 };
@@ -29,6 +30,7 @@ export default function Wish() {
   const [spotifyUrl, setSpotifyUrl] = useState();
   const [clipboardModal, setClipboardModal] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const router = useRouter();
 
   const closeModal = () => {
     setSpotifyUrl('');
@@ -38,7 +40,7 @@ export default function Wish() {
   const searchOnEnter = async (e) => {
     if (e.code !== 'Enter') return;
 
-    setSearchResults(await searchForSongs(searchValue));
+    setSearchResults(await searchForSongs(router.query.sid, searchValue));
   };
 
   const onClipboardButton = async () => {
@@ -49,7 +51,7 @@ export default function Wish() {
     }
 
     const shareUrl = await navigator.clipboard.readText();
-    await putInQueue(shareUrl);
+    await putInQueue(router.query.sid, shareUrl);
   };
 
   return (
@@ -58,7 +60,7 @@ export default function Wish() {
         onClose={closeModal}
         onChange={(e) => setSpotifyUrl(e.target.value)}
         onSubmit={async () => {
-          await putInQueue(spotifyUrl);
+          await putInQueue(router.query.sid, spotifyUrl);
           closeModal();
         }}
         open={clipboardModal}
@@ -80,7 +82,9 @@ export default function Wish() {
         <Button
           variant="contained"
           onClick={async () =>
-            setSearchResults(await searchForSongs(searchValue))
+            setSearchResults(
+              await searchForSongs(router.query.sid, searchValue),
+            )
           }
         >
           Suchen
