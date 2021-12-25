@@ -34,6 +34,7 @@ const byPath = {
     '/queue': 1,
     '/poll': 2
 };
+// To be updated
 /**
  *
  * @param {{selectedLabel: 'wish'|'queue'|'poll', onChange: function}} props
@@ -67,14 +68,6 @@ const byPath = {
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.BottomNavigationAction, {
                 label: "Queue",
                 icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_icons_material__WEBPACK_IMPORTED_MODULE_2__.QueueMusic, {
-                }),
-                sx: {
-                    color: '#fff'
-                }
-            }),
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.BottomNavigationAction, {
-                label: "Playlist voting",
-                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_icons_material__WEBPACK_IMPORTED_MODULE_2__.AddBox, {
                 }),
                 sx: {
                     color: '#fff'

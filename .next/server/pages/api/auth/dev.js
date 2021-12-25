@@ -84,8 +84,8 @@ async function handler(req, res) {
     const cookies = new (cookies__WEBPACK_IMPORTED_MODULE_0___default())(req, res);
     session.spotifyState = null;
     const authTokens = {
-        accessToken: 'BQC7P0WLNO-lcH9IQlwMsPF4zxVXMqo43MZXpKGvAdzpMaqp12MQRTAMI_mnpxrA224DhopHhpIFjdF3WPgkvicwZfQ2BnzrA7uuHvU_gm0aeaZA_DI1Jid4ACYW3d2SEIxC30YJzE4Bzn4QUEBuTxy3b5xaCQ',
-        refreshToken: 'AQB1_OF6NZhp6X29nm05vTFx1bcFWVriwRwzhpi09Kd8FQLz5tsEpEFQ4zLrYF5vAMo7vIdl3dK205ob8QVstrLRK-5-W72mT6c9x5rTbzrWAtYfI9VMVJfbqMfSj2UDfuc'
+        accessToken: 'BQDbAvMxzqH44YSQ2JzDpPzkM6Ct8Tp1IHks_5ZI3LAXmii7qAnZOKdG6pS6n9MQbJT8Sqr6qDUNo1Kd9cErY_PpMn_esOeLxduxOxxjlIkihzrX7yaSBRIN-5PH4djzyOsguHnpyN7J1Z1SD9OoY290NAJDMg',
+        refreshToken: 'AQBMXjPNbtFVDubdKCvtzggfKc69hUBeoHJXFWtEeTXiMrNUleDu0CbRQdPmSeS3TgRkVy1J9iiHczdA3GGKuSMmxUtToYqJ9k1_eRRoa84TftbO9VOOXuaOd5o64bq5efI'
     };
     const user = {
         id: '1128773164',

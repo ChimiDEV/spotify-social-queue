@@ -161,6 +161,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8442);
 /* harmony import */ var _mui_material_styles__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_mui_material_styles__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3830);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(1853);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_7__);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__, _components_Layout__WEBPACK_IMPORTED_MODULE_1__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__]);
 ([_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__, _components_Layout__WEBPACK_IMPORTED_MODULE_1__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
 
@@ -170,19 +172,20 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_com
 
 
 
+
 const extractSpotifyId = (url)=>url.split('/').pop().split('?')[0]
 ;
-const putInQueue = async (shareUrl)=>{
+const putInQueue = async (sid, shareUrl)=>{
     if (!shareUrl.startsWith('https://open.spotify.com/track')) {
         // invalid spotify url
         return;
     }
-    await fetch(`/api/playlist?song_id=${extractSpotifyId(shareUrl)}`, {
+    await fetch(`/api/sessions/${sid}?track_id=${extractSpotifyId(shareUrl)}`, {
         method: 'POST'
     });
 };
-const searchForSongs = async (searchValue)=>{
-    const res = await fetch(`/api/tracks?q=${searchValue}`);
+const searchForSongs = async (sid, searchValue)=>{
+    const res = await fetch(`/api/sessions/${sid}/tracks?q=${searchValue}`);
     return res.json();
 };
 function Wish() {
@@ -190,13 +193,14 @@ function Wish() {
     const { 0: spotifyUrl , 1: setSpotifyUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)();
     const { 0: clipboardModal , 1: setClipboardModal  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
     const { 0: searchResults , 1: setSearchResults  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]);
+    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_7__.useRouter)();
     const closeModal = ()=>{
         setSpotifyUrl('');
         setClipboardModal(false);
     };
     const searchOnEnter = async (e)=>{
         if (e.code !== 'Enter') return;
-        setSearchResults(await searchForSongs(searchValue));
+        setSearchResults(await searchForSongs(router.query.sid, searchValue));
     };
     const onClipboardButton = async ()=>{
         if (!navigator.clipboard) {
@@ -205,7 +209,7 @@ function Wish() {
             return;
         }
         const shareUrl = await navigator.clipboard.readText();
-        await putInQueue(shareUrl);
+        await putInQueue(router.query.sid, shareUrl);
     };
     return(/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_components_Layout__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z, {
         children: [
@@ -214,7 +218,7 @@ function Wish() {
                 onChange: (e)=>setSpotifyUrl(e.target.value)
                 ,
                 onSubmit: async ()=>{
-                    await putInQueue(spotifyUrl);
+                    await putInQueue(router.query.sid, spotifyUrl);
                     closeModal();
                 },
                 open: clipboardModal
@@ -245,7 +249,7 @@ function Wish() {
                     }),
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Button, {
                         variant: "contained",
-                        onClick: async ()=>setSearchResults(await searchForSongs(searchValue))
+                        onClick: async ()=>setSearchResults(await searchForSongs(router.query.sid, searchValue))
                         ,
                         children: "Suchen"
                     })

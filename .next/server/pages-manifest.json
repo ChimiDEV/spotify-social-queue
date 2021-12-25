@@ -9,7 +9,7 @@
   "/api/sessions/[sid]/tracks/current": "pages/api/sessions/[sid]/tracks/current.js",
   "/api/sessions/[sid]/tracks": "pages/api/sessions/[sid]/tracks.js",
   "/api/sessions": "pages/api/sessions.js",
-  "/": "pages/index.html",
+  "/": "pages/index.js",
   "/sessions/[sid]": "pages/sessions/[sid].html",
   "/sessions/[sid]/queue": "pages/sessions/[sid]/queue.html",
   "/sessions/[sid]/wish": "pages/sessions/[sid]/wish.html",

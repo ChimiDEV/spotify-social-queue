@@ -36,6 +36,8 @@ export default async function handler(req, res) {
 
   setSpotifyAuth(queueId, authTokens);
 
+  console.log(queueId, authTokens);
+
   const token = jwt.sign({ queueId, user }, JWT_SECRET);
   cookies.set(AUTH_COOKIE, token);
   res.redirect(session.originalUrl || '/');

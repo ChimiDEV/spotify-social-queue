@@ -14,6 +14,7 @@ exports.modules = {
 // Stateful Cache
 let authCache = {
 };
+if (false) {}
 const setSpotifyAuth = (authKey, { accessToken , refreshToken  })=>{
     if (!accessToken || !refreshToken) {
         throw new Error('Invalid credentials for authentication cache');

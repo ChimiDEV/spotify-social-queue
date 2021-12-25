@@ -102,6 +102,7 @@ async function handler(req, res) {
     const user = await (0,_utils_spotify__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .ZP)(authTokens).user();
     const queueId = (0,_utils_queueSession__WEBPACK_IMPORTED_MODULE_5__/* .queueIdFromUser */ .N)(user);
     (0,_utils_spotify__WEBPACK_IMPORTED_MODULE_4__/* .setSpotifyAuth */ .LJ)(queueId, authTokens);
+    console.log(queueId, authTokens);
     const token = jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default().sign({
         queueId,
         user
