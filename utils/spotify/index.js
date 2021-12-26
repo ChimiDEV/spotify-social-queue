@@ -3,13 +3,6 @@ import { fromTrackItem, fromUserResponse } from './transform';
 import { accountRequest, authenticatedApiRequest } from './request';
 
 export { API_URL, ACCOUNT_URL, AUTHORIZE_SCOPE } from './const';
-export {
-  setSpotifyAuth,
-  setAccessToken,
-  getSpotifyAuth,
-  getCache,
-} from './cache';
-
 const { REDIRECT_URI, CLIENT_ID, CLIENT_SECRET } = process.env;
 
 const toBase64 = (str) => Buffer.from(str).toString('base64');
