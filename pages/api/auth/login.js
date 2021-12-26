@@ -11,10 +11,6 @@ export default async function handler(req, res) {
   const session = await getSession(req, res);
   session.spotifyState = state;
 
-  if (process.env.NODE_ENV === 'development') {
-    return res.redirect('/api/auth/dev');
-  }
-
   return res.redirect(
     `${ACCOUNT_URL}/authorize?${queryString({
       response_type: 'code',

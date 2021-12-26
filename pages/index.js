@@ -1,10 +1,9 @@
 import { Box, Button } from '@mui/material';
 import { styled } from '@stitches/react';
 import jwt from 'jsonwebtoken';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import RedirectModal from '../components/RedirectModal';
-import { getSpotifyAuth } from '../utils/spotify/cache';
+import { getSpotifyAuth } from '../utils/cache';
 
 const { JWT_SECRET } = process.env;
 
@@ -30,8 +29,10 @@ export async function getServerSideProps({ req, res }) {
       JWT_SECRET,
     );
 
+    const auth = await getSpotifyAuth(queueId);
+
     // Login again if no access token/refresh token exist in the auth cache
-    if (!getSpotifyAuth(queueId)) {
+    if (!auth) {
       return {
         redirect: {
           destination: '/api/auth/login',

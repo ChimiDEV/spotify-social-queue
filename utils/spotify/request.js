@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 import fetch from 'node-fetch';
-import { getSpotifyAuth, setAccessToken } from './cache';
+import { getSpotifyAuth, setAccessToken } from '../cache';
 import { ACCOUNT_URL, API_URL } from './const';
 
 const refresh = async (authKey) => {
-  const auth = getSpotifyAuth(authKey) || authKey;
+  const auth = (await getSpotifyAuth(authKey)) || authKey;
 
   const { access_token: accessToken } = await accountRequest('/api/token', {
     method: 'POST',
@@ -19,7 +19,7 @@ const refresh = async (authKey) => {
 
   if (_.isString(authKey)) {
     // If authKey wasn't a string, don't update the cache
-    setAccessToken(authKey, accessToken);
+    await setAccessToken(authKey, accessToken);
   }
 
   return accessToken;
@@ -66,7 +66,7 @@ export const authenticatedApiRequest = async (
   { method = 'GET', headers, body, ...options } = {},
 ) => {
   // authKey found in Cache OR authKey IS auth object
-  const auth = getSpotifyAuth(authKey) || authKey;
+  const auth = (await getSpotifyAuth(authKey)) || authKey;
 
   if (!auth.accessToken || !auth.refreshToken) {
     console.log('No authentication could be found');

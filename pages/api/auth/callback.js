@@ -2,10 +2,8 @@ import Cookies from 'cookies';
 import jwt from 'jsonwebtoken';
 import getSession from '../../../utils/httpSession';
 import { AUTH_COOKIE } from '../../../utils/auth';
-import spotify, {
-  retrieveSpotifyTokens,
-  setSpotifyAuth,
-} from '../../../utils/spotify';
+import spotify, { retrieveSpotifyTokens } from '../../../utils/spotify';
+import { setSpotifyAuth } from '../../../utils/cache';
 import { queueIdFromUser } from '../../../utils/queueSession';
 
 const { JWT_SECRET } = process.env;
@@ -34,7 +32,7 @@ export default async function handler(req, res) {
   const user = await spotify(authTokens).user();
   const queueId = queueIdFromUser(user);
 
-  setSpotifyAuth(queueId, authTokens);
+  await setSpotifyAuth(queueId, authTokens);
 
   const token = jwt.sign({ queueId, user }, JWT_SECRET);
   cookies.set(AUTH_COOKIE, token);
