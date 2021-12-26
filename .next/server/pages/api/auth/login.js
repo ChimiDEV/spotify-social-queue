@@ -12,6 +12,13 @@ module.exports = require("lodash/fp");
 
 /***/ }),
 
+/***/ 7773:
+/***/ ((module) => {
+
+module.exports = require("redis");
+
+/***/ }),
+
 /***/ 6364:
 /***/ ((module) => {
 
@@ -66,7 +73,6 @@ async function handler(req, res) {
     const state = crypto__WEBPACK_IMPORTED_MODULE_0___default().randomBytes(64).toString('hex');
     const session = await (0,_utils_httpSession__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)(req, res);
     session.spotifyState = state;
-    if (false) {}
     return res.redirect(`${_utils_spotify__WEBPACK_IMPORTED_MODULE_3__/* .ACCOUNT_URL */ .js}/authorize?${queryString({
         response_type: 'code',
         state,
@@ -106,7 +112,7 @@ const getSession = (0,next_session__WEBPACK_IMPORTED_MODULE_0__["default"])();
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [774], () => (__webpack_exec__(2495)));
+var __webpack_exports__ = __webpack_require__.X(0, [599,774], () => (__webpack_exec__(2495)));
 module.exports = __webpack_exports__;
 
 })();

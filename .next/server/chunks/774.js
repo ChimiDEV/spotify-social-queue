@@ -3,37 +3,6 @@ exports.id = 774;
 exports.ids = [774];
 exports.modules = {
 
-/***/ 5803:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "LJ": () => (/* binding */ setSpotifyAuth),
-/* harmony export */   "M8": () => (/* binding */ setAccessToken),
-/* harmony export */   "ir": () => (/* binding */ getSpotifyAuth)
-/* harmony export */ });
-// Stateful Cache
-let authCache = {
-};
-if (false) {}
-const setSpotifyAuth = (authKey, { accessToken , refreshToken  })=>{
-    if (!accessToken || !refreshToken) {
-        throw new Error('Invalid credentials for authentication cache');
-    }
-    authCache[authKey] = {
-        accessToken,
-        refreshToken
-    };
-};
-const setAccessToken = (authKey, accessToken)=>{
-    if (!authCache[authKey]) return;
-    authCache[authKey].accessToken = accessToken;
-};
-const getSpotifyAuth = (key)=>authCache[key]
-;
-
-
-/***/ }),
-
 /***/ 9972:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -56,19 +25,16 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "js": () => (/* reexport safe */ _const__WEBPACK_IMPORTED_MODULE_2__.js),
 /* harmony export */   "BO": () => (/* reexport safe */ _const__WEBPACK_IMPORTED_MODULE_2__.BO),
-/* harmony export */   "LJ": () => (/* reexport safe */ _cache__WEBPACK_IMPORTED_MODULE_3__.LJ),
 /* harmony export */   "pP": () => (/* binding */ retrieveSpotifyTokens),
 /* harmony export */   "ZP": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* unused harmony exports user, currentTrack, search, addToQueue */
 /* harmony import */ var form_urlencoded__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6364);
-/* harmony import */ var _transform__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6212);
+/* harmony import */ var _transform__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6212);
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4379);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9972);
-/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5803);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_request__WEBPACK_IMPORTED_MODULE_1__, form_urlencoded__WEBPACK_IMPORTED_MODULE_0__]);
 ([_request__WEBPACK_IMPORTED_MODULE_1__, form_urlencoded__WEBPACK_IMPORTED_MODULE_0__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
-
 
 
 
@@ -100,11 +66,11 @@ const toBase64 = (str)=>Buffer.from(str).toString('base64')
         refreshToken
     };
 };
-const user = (authKey)=>async ()=>(0,_transform__WEBPACK_IMPORTED_MODULE_4__/* .fromUserResponse */ .V)(await (0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, '/me'))
+const user = (authKey)=>async ()=>(0,_transform__WEBPACK_IMPORTED_MODULE_3__/* .fromUserResponse */ .V)(await (0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, '/me'))
 ;
-const currentTrack = (authKey)=>async ()=>(0,_transform__WEBPACK_IMPORTED_MODULE_4__/* .fromTrackItem */ .o)((await (0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, '/me/player/currently-playing')).item)
+const currentTrack = (authKey)=>async ()=>(0,_transform__WEBPACK_IMPORTED_MODULE_3__/* .fromTrackItem */ .o)((await (0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, '/me/player/currently-playing')).item)
 ;
-const search = (authKey)=>async (query)=>(await (0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, `/search?type=track&q=${query}`)).tracks.items.map(_transform__WEBPACK_IMPORTED_MODULE_4__/* .fromTrackItem */ .o)
+const search = (authKey)=>async (query)=>(await (0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, `/search?type=track&q=${query}`)).tracks.items.map(_transform__WEBPACK_IMPORTED_MODULE_3__/* .fromTrackItem */ .o)
 ;
 const addToQueue = (authKey)=>(trackId)=>(0,_request__WEBPACK_IMPORTED_MODULE_1__/* .authenticatedApiRequest */ .dt)(authKey, `/me/player/queue?uri=spotify:track:${trackId}`, {
             method: 'POST'
@@ -134,7 +100,7 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 /* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9710);
 /* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_fp__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6544);
-/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5803);
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2599);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9972);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([node_fetch__WEBPACK_IMPORTED_MODULE_1__]);
 node_fetch__WEBPACK_IMPORTED_MODULE_1__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
@@ -143,7 +109,7 @@ node_fetch__WEBPACK_IMPORTED_MODULE_1__ = (__webpack_async_dependencies__.then ?
 
 
 const refresh = async (authKey)=>{
-    const auth = (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
+    const auth = await (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
     const { access_token: accessToken  } = await accountRequest('/api/token', {
         method: 'POST',
         headers: {
@@ -156,7 +122,7 @@ const refresh = async (authKey)=>{
     });
     if (lodash_fp__WEBPACK_IMPORTED_MODULE_0___default().isString(authKey)) {
         // If authKey wasn't a string, don't update the cache
-        (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .setAccessToken */ .M8)(authKey, accessToken);
+        await (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .setAccessToken */ .M8)(authKey, accessToken);
     }
     return accessToken;
 };
@@ -188,7 +154,7 @@ const accountRequest = async (uri, { method ='GET' , headers , body , ...options
 const authenticatedApiRequest = async (authKey, uri, { method ='GET' , headers , body , ...options } = {
 })=>{
     // authKey found in Cache OR authKey IS auth object
-    const auth = (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
+    const auth = await (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
     if (!auth.accessToken || !auth.refreshToken) {
         console.log('No authentication could be found');
         return null; // Reject promise later on

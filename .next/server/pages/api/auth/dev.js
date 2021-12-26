@@ -26,10 +26,10 @@ module.exports = require("lodash/fp");
 
 /***/ }),
 
-/***/ 6364:
+/***/ 7773:
 /***/ ((module) => {
 
-module.exports = import("form-urlencoded");;
+module.exports = require("redis");
 
 /***/ }),
 
@@ -37,13 +37,6 @@ module.exports = import("form-urlencoded");;
 /***/ ((module) => {
 
 module.exports = import("next-session");;
-
-/***/ }),
-
-/***/ 6544:
-/***/ ((module) => {
-
-module.exports = import("node-fetch");;
 
 /***/ }),
 
@@ -68,10 +61,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utils_httpSession__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6627);
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9407);
-/* harmony import */ var _utils_spotify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4774);
+/* harmony import */ var _utils_cache__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2599);
 /* harmony import */ var _utils_queueSession__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9186);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_utils_auth__WEBPACK_IMPORTED_MODULE_3__, _utils_spotify__WEBPACK_IMPORTED_MODULE_4__, _utils_queueSession__WEBPACK_IMPORTED_MODULE_5__, _utils_httpSession__WEBPACK_IMPORTED_MODULE_2__]);
-([_utils_auth__WEBPACK_IMPORTED_MODULE_3__, _utils_spotify__WEBPACK_IMPORTED_MODULE_4__, _utils_queueSession__WEBPACK_IMPORTED_MODULE_5__, _utils_httpSession__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_utils_auth__WEBPACK_IMPORTED_MODULE_3__, _utils_queueSession__WEBPACK_IMPORTED_MODULE_5__, _utils_httpSession__WEBPACK_IMPORTED_MODULE_2__]);
+([_utils_auth__WEBPACK_IMPORTED_MODULE_3__, _utils_queueSession__WEBPACK_IMPORTED_MODULE_5__, _utils_httpSession__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
 
 
 
@@ -93,7 +86,7 @@ async function handler(req, res) {
         image: 'https://scontent-lcy1-1.xx.fbcdn.net/v/t1.6435-1/p320x320/45586100_2013327998728747_9221414553970016256_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=0c64ff&_nc_ohc=WdKzLDxcwl8AX8l_8JV&_nc_ht=scontent-lcy1-1.xx&edm=AP4hL3IEAAAA&oh=00_AT8xaeypyNGIWUPKYLl7DVC0KteIyfV_pLO5BgXlAtQtgA&oe=61E78C0B'
     };
     const queueId = (0,_utils_queueSession__WEBPACK_IMPORTED_MODULE_5__/* .queueIdFromUser */ .N)(user);
-    (0,_utils_spotify__WEBPACK_IMPORTED_MODULE_4__/* .setSpotifyAuth */ .LJ)(queueId, authTokens);
+    await (0,_utils_cache__WEBPACK_IMPORTED_MODULE_4__/* .setSpotifyAuth */ .LJ)(queueId, authTokens);
     const token = jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default().sign({
         queueId,
         user
@@ -132,7 +125,7 @@ const queueIdFromUser = ({ id , displayName  })=>(0,uuid__WEBPACK_IMPORTED_MODUL
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [774,407], () => (__webpack_exec__(2605)));
+var __webpack_exports__ = __webpack_require__.X(0, [599,407], () => (__webpack_exec__(2605)));
 module.exports = __webpack_exports__;
 
 })();

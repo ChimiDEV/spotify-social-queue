@@ -131,15 +131,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _stitches_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(796);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9344);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1853);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6689);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_RedirectModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8689);
-/* harmony import */ var _utils_spotify_cache__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9054);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_6__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__]);
-([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_6__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6689);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8689);
+/* harmony import */ var _utils_cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3727);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__]);
+([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
 
 
 
@@ -164,8 +161,9 @@ async function getServerSideProps({ req , res  }) {
     }
     try {
         const { queueId  } = jsonwebtoken__WEBPACK_IMPORTED_MODULE_3___default().verify(req.cookies['social-queue-auth'], JWT_SECRET);
+        const auth = await (0,_utils_cache__WEBPACK_IMPORTED_MODULE_6__/* .getSpotifyAuth */ .ir)(queueId);
         // Login again if no access token/refresh token exist in the auth cache
-        if (!(0,_utils_spotify_cache__WEBPACK_IMPORTED_MODULE_7__/* .getSpotifyAuth */ .ir)(queueId)) {
+        if (!auth) {
             return {
                 redirect: {
                     destination: '/api/auth/login'
@@ -184,9 +182,9 @@ async function getServerSideProps({ req , res  }) {
     }
 }
 function Home({ queueId  }) {
-    const { 0: sessionUrl , 1: setSessionUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(null);
-    const { 0: redirectModal , 1: setRedirectModal  } = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(false);
-    (0,react__WEBPACK_IMPORTED_MODULE_5__.useEffect)(()=>setSessionUrl(`${location.protocol}//${location.host}/sessions/${queueId}`)
+    const { 0: sessionUrl , 1: setSessionUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(null);
+    const { 0: redirectModal , 1: setRedirectModal  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+    (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(()=>setSessionUrl(`${location.protocol}//${location.host}/sessions/${queueId}`)
     , []);
     const onRedirectModalClose = ()=>{
         setRedirectModal(false);
@@ -200,7 +198,7 @@ function Home({ queueId  }) {
             marginTop: '50px'
         },
         children: [
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_RedirectModal__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z, {
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__/* ["default"] */ .Z, {
                 open: redirectModal,
                 onClose: onRedirectModalClose,
                 href: sessionUrl
@@ -225,32 +223,51 @@ function Home({ queueId  }) {
 
 /***/ }),
 
-/***/ 9054:
+/***/ 3727:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ir": () => (/* binding */ getSpotifyAuth)
-/* harmony export */ });
-/* unused harmony exports setSpotifyAuth, setAccessToken */
-// Stateful Cache
-let authCache = {
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "ir": () => (/* binding */ getSpotifyAuth)
+});
+
+// UNUSED EXPORTS: setAccessToken, setSpotifyAuth
+
+;// CONCATENATED MODULE: external "redis"
+const external_redis_namespaceObject = require("redis");
+;// CONCATENATED MODULE: ./utils/cache.js
+
+const redis = (0,external_redis_namespaceObject.createClient)();
+const connectRedis = async ()=>{
+    try {
+        await redis.ping();
+        return;
+    } catch  {
+        await redis.connect();
+    }
 };
-if (false) {}
-const setSpotifyAuth = (authKey, { accessToken , refreshToken  })=>{
+const setSpotifyAuth = async (authKey, { accessToken , refreshToken  })=>{
+    await connectRedis();
     if (!accessToken || !refreshToken) {
         throw new Error('Invalid credentials for authentication cache');
     }
-    authCache[authKey] = {
+    await redis.set(`${authKey}-access`, accessToken);
+    await redis.set(`${authKey}-refresh`, refreshToken);
+};
+const setAccessToken = async (authKey, accessToken)=>{
+    await connectRedis();
+    await redis.set(`${authKey}-access`, accessToken);
+};
+const getSpotifyAuth = async (key)=>{
+    await connectRedis();
+    const accessToken = await redis.get(`${key}-access`);
+    const refreshToken = await redis.get(`${key}-refresh`);
+    return accessToken && refreshToken ? {
         accessToken,
         refreshToken
-    };
+    } : null;
 };
-const setAccessToken = (authKey, accessToken)=>{
-    if (!authCache[authKey]) return;
-    authCache[authKey].accessToken = accessToken;
-};
-const getSpotifyAuth = (key)=>authCache[key]
-;
 
 
 /***/ }),

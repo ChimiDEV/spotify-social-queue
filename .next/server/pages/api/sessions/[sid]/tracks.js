@@ -12,6 +12,13 @@ module.exports = require("lodash/fp");
 
 /***/ }),
 
+/***/ 7773:
+/***/ ((module) => {
+
+module.exports = require("redis");
+
+/***/ }),
+
 /***/ 6364:
 /***/ ((module) => {
 
@@ -53,7 +60,7 @@ async function handler(req, res) {
 var __webpack_require__ = require("../../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [774], () => (__webpack_exec__(5723)));
+var __webpack_exports__ = __webpack_require__.X(0, [599,774], () => (__webpack_exec__(5723)));
 module.exports = __webpack_exports__;
 
 })();
