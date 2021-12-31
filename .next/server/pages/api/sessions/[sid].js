@@ -41,14 +41,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ handler)
 /* harmony export */ });
-/* harmony import */ var _utils_spotify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4774);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_utils_spotify__WEBPACK_IMPORTED_MODULE_0__]);
-_utils_spotify__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
+/* harmony import */ var _utils_cache__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2599);
+/* harmony import */ var _utils_spotify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4774);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_utils_spotify__WEBPACK_IMPORTED_MODULE_1__]);
+_utils_spotify__WEBPACK_IMPORTED_MODULE_1__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
+
 
 async function handler(req, res) {
-    // Only on POST ? ... Doesn't really matter for now.
-    await (0,_utils_spotify__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .ZP)(req.query.sid).addToQueue(req.query.track_id);
-    return res.status(204).send();
+    switch(req.method){
+        case 'GET':
+            const auth = await (0,_utils_cache__WEBPACK_IMPORTED_MODULE_0__/* .getSpotifyAuth */ .ir)(req.query.sid);
+            if (!auth) {
+                return res.status(404).json({
+                    message: 'Not Found'
+                });
+            }
+            return res.json({
+                message: 'Ok'
+            });
+        case 'POST':
+            await (0,_utils_spotify__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(req.query.sid).addToQueue(req.query.track_id);
+            return res.status(204).send();
+    }
 };
 
 });

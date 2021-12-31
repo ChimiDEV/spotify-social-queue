@@ -11,7 +11,7 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 /* harmony export */   "VP": () => (/* binding */ AUTH_COOKIE),
 /* harmony export */   "IB": () => (/* binding */ protectedRoute)
 /* harmony export */ });
-/* unused harmony export verifyAuthentication */
+/* unused harmony exports verifyAuthentication, authMiddleware */
 /* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9710);
 /* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_fp__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9344);
@@ -44,20 +44,26 @@ const AUTH_COOKIE = 'social-queue-auth';
         return null;
     }
 };
+const authMiddleware = async (req, res, { redirect  })=>{
+    const auth = verifyAuthentication(req);
+    if (auth === null) {
+        // if redirect is true, redirect to auth url. Keep original url in session
+        if (redirect) {
+            const session = await (0,_httpSession__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)(req, res);
+            session.originalUrl = req.url;
+            return res.redirect('/api/auth/login');
+        }
+        return res.status(401).json({
+            message: 'Unauthorized'
+        });
+    }
+    return auth;
+};
 const protectedRoute = (handler, { redirect =false  } = {
 })=>async (req, res)=>{
-        req.auth = verifyAuthentication(req);
-        if (req.auth === null) {
-            // if redirect is true, redirect to auth url. Keep original url in session
-            if (redirect) {
-                const session = await (0,_httpSession__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)(req, res);
-                session.originalUrl = req.url;
-                return res.redirect('/api/auth/login');
-            }
-            return res.status(401).json({
-                message: 'Unauthorized'
-            });
-        }
+        req.auth = authMiddleware(req, res, {
+            redirect
+        });
         return handler(req, res);
     }
 ;

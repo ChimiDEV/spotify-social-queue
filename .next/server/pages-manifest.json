@@ -10,9 +10,9 @@
   "/api/sessions/[sid]/tracks": "pages/api/sessions/[sid]/tracks.js",
   "/api/sessions": "pages/api/sessions.js",
   "/": "pages/index.js",
-  "/sessions/[sid]": "pages/sessions/[sid].html",
-  "/sessions/[sid]/queue": "pages/sessions/[sid]/queue.html",
-  "/sessions/[sid]/wish": "pages/sessions/[sid]/wish.html",
+  "/sessions/[sid]": "pages/sessions/[sid].js",
+  "/sessions/[sid]/queue": "pages/sessions/[sid]/queue.js",
+  "/sessions/[sid]/wish": "pages/sessions/[sid]/wish.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/404": "pages/404.html"

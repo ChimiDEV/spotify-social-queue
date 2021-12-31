@@ -100,40 +100,49 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 /* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9710);
 /* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_fp__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6544);
-/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2599);
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9972);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([node_fetch__WEBPACK_IMPORTED_MODULE_1__]);
-node_fetch__WEBPACK_IMPORTED_MODULE_1__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
+/* harmony import */ var form_urlencoded__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6364);
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2599);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9972);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([node_fetch__WEBPACK_IMPORTED_MODULE_1__, form_urlencoded__WEBPACK_IMPORTED_MODULE_2__]);
+([node_fetch__WEBPACK_IMPORTED_MODULE_1__, form_urlencoded__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
 
 
 
 
+
+const { CLIENT_ID , CLIENT_SECRET  } = process.env;
+const toBase64 = (str)=>Buffer.from(str).toString('base64')
+;
 const refresh = async (authKey)=>{
-    const auth = await (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
+    const auth = await (0,_cache__WEBPACK_IMPORTED_MODULE_3__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
     const { access_token: accessToken  } = await accountRequest('/api/token', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${toBase64(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
         },
-        body: formEncode({
+        body: (0,form_urlencoded__WEBPACK_IMPORTED_MODULE_2__["default"])({
             refresh_token: auth.refreshToken,
             grant_type: 'refresh_token'
         })
     });
     if (lodash_fp__WEBPACK_IMPORTED_MODULE_0___default().isString(authKey)) {
         // If authKey wasn't a string, don't update the cache
-        await (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .setAccessToken */ .M8)(authKey, accessToken);
+        await (0,_cache__WEBPACK_IMPORTED_MODULE_3__/* .setAccessToken */ .M8)(authKey, accessToken);
     }
     return accessToken;
 };
 const apiRequest = async (uri, { method ='GET' , headers , body , ...options } = {
 })=>{
-    const res = await (0,node_fetch__WEBPACK_IMPORTED_MODULE_1__["default"])(`${_const__WEBPACK_IMPORTED_MODULE_3__/* .API_URL */ .T5}${encodeURI(uri)}`, {
+    const res = await (0,node_fetch__WEBPACK_IMPORTED_MODULE_1__["default"])(`${_const__WEBPACK_IMPORTED_MODULE_4__/* .API_URL */ .T5}${encodeURI(uri)}`, {
         method,
         headers,
         body,
         ...options
     });
+    if (!res.ok) {
+        throw new Error(res);
+    }
     if (res.status === 204) {
         return;
     }
@@ -144,7 +153,7 @@ const apiRequest = async (uri, { method ='GET' , headers , body , ...options } =
     }
 };
 const accountRequest = async (uri, { method ='GET' , headers , body , ...options } = {
-})=>(await (0,node_fetch__WEBPACK_IMPORTED_MODULE_1__["default"])(`${_const__WEBPACK_IMPORTED_MODULE_3__/* .ACCOUNT_URL */ .js}${encodeURI(uri)}`, {
+})=>(await (0,node_fetch__WEBPACK_IMPORTED_MODULE_1__["default"])(`${_const__WEBPACK_IMPORTED_MODULE_4__/* .ACCOUNT_URL */ .js}${encodeURI(uri)}`, {
         method,
         headers,
         body,
@@ -154,7 +163,7 @@ const accountRequest = async (uri, { method ='GET' , headers , body , ...options
 const authenticatedApiRequest = async (authKey, uri, { method ='GET' , headers , body , ...options } = {
 })=>{
     // authKey found in Cache OR authKey IS auth object
-    const auth = await (0,_cache__WEBPACK_IMPORTED_MODULE_2__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
+    const auth = await (0,_cache__WEBPACK_IMPORTED_MODULE_3__/* .getSpotifyAuth */ .ir)(authKey) || authKey;
     if (!auth.accessToken || !auth.refreshToken) {
         console.log('No authentication could be found');
         return null; // Reject promise later on
@@ -170,9 +179,11 @@ const authenticatedApiRequest = async (authKey, uri, { method ='GET' , headers ,
         })
     ;
     try {
-        return request(auth.accessToken);
+        const res = await request(auth.accessToken);
+        return res;
     } catch (err) {
-        return request(await refresh(authKey));
+        const res = request(await refresh(authKey));
+        return res;
     }
 };
 

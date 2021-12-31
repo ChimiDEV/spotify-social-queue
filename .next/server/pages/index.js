@@ -129,14 +129,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5692);
 /* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _stitches_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(796);
-/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9344);
-/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6689);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8689);
-/* harmony import */ var _utils_cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3727);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__]);
-([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6689);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_RedirectModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8689);
+/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5564);
+/* harmony import */ var _utils_cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3867);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_4__, _utils_auth__WEBPACK_IMPORTED_MODULE_5__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__]);
+([_components_RedirectModal__WEBPACK_IMPORTED_MODULE_4__, _utils_auth__WEBPACK_IMPORTED_MODULE_5__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
 
 
 
@@ -144,7 +143,6 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_com
 
 
 
-const { JWT_SECRET  } = process.env;
 const CenteredHeadline = (0,_stitches_react__WEBPACK_IMPORTED_MODULE_2__.styled)('h2', {
     display: 'block',
     textAlign: 'center',
@@ -152,7 +150,8 @@ const CenteredHeadline = (0,_stitches_react__WEBPACK_IMPORTED_MODULE_2__.styled)
 });
 // Use SSR to check if the user is logged in. This react page is the only "protected" page
 async function getServerSideProps({ req , res  }) {
-    if (!req.cookies['social-queue-auth']) {
+    const jwtPayload = (0,_utils_auth__WEBPACK_IMPORTED_MODULE_5__/* .verifyAuthentication */ .PA)(req);
+    if (!jwtPayload) {
         return {
             redirect: {
                 destination: '/api/auth/login'
@@ -160,7 +159,7 @@ async function getServerSideProps({ req , res  }) {
         };
     }
     try {
-        const { queueId  } = jsonwebtoken__WEBPACK_IMPORTED_MODULE_3___default().verify(req.cookies['social-queue-auth'], JWT_SECRET);
+        const { queueId  } = jwtPayload;
         const auth = await (0,_utils_cache__WEBPACK_IMPORTED_MODULE_6__/* .getSpotifyAuth */ .ir)(queueId);
         // Login again if no access token/refresh token exist in the auth cache
         if (!auth) {
@@ -182,9 +181,9 @@ async function getServerSideProps({ req , res  }) {
     }
 }
 function Home({ queueId  }) {
-    const { 0: sessionUrl , 1: setSessionUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(null);
-    const { 0: redirectModal , 1: setRedirectModal  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
-    (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(()=>setSessionUrl(`${location.protocol}//${location.host}/sessions/${queueId}`)
+    const { 0: sessionUrl , 1: setSessionUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(null);
+    const { 0: redirectModal , 1: setRedirectModal  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
+    (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(()=>setSessionUrl(`${location.protocol}//${location.host}/sessions/${queueId}`)
     , []);
     const onRedirectModalClose = ()=>{
         setRedirectModal(false);
@@ -198,7 +197,7 @@ function Home({ queueId  }) {
             marginTop: '50px'
         },
         children: [
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_RedirectModal__WEBPACK_IMPORTED_MODULE_5__/* ["default"] */ .Z, {
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_RedirectModal__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z, {
                 open: redirectModal,
                 onClose: onRedirectModalClose,
                 href: sessionUrl
@@ -223,52 +222,87 @@ function Home({ queueId  }) {
 
 /***/ }),
 
-/***/ 3727:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ 5564:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PA": () => (/* binding */ verifyAuthentication)
+/* harmony export */ });
+/* unused harmony exports AUTH_COOKIE, authMiddleware, protectedRoute */
+/* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9710);
+/* harmony import */ var lodash_fp__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_fp__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9344);
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _httpSession__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9867);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_httpSession__WEBPACK_IMPORTED_MODULE_2__]);
+_httpSession__WEBPACK_IMPORTED_MODULE_2__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
 
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "ir": () => (/* binding */ getSpotifyAuth)
+
+const { JWT_SECRET  } = process.env;
+const fromBearer = (bearerHeader)=>bearerHeader && bearerHeader.startsWith('Bearer') && lodash_fp__WEBPACK_IMPORTED_MODULE_0___default().last(bearerHeader.split(' '))
+;
+const AUTH_COOKIE = 'social-queue-auth';
+/**
+ * Returns JWT payload.
+ * If user is not authenticated returns null
+ *
+ * @param {*} req
+ * @returns
+ */ const verifyAuthentication = (req)=>{
+    const authToken = req.cookies[AUTH_COOKIE] || fromBearer(req.headers.authorization);
+    if (!authToken) {
+        return null;
+    }
+    // Validate Auth
+    try {
+        return jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default().verify(authToken, JWT_SECRET);
+    } catch (err) {
+        return null;
+    }
+};
+const authMiddleware = async (req, res, { redirect  })=>{
+    const auth = verifyAuthentication(req);
+    if (auth === null) {
+        // if redirect is true, redirect to auth url. Keep original url in session
+        if (redirect) {
+            const session = await getSession(req, res);
+            session.originalUrl = req.url;
+            return res.redirect('/api/auth/login');
+        }
+        return res.status(401).json({
+            message: 'Unauthorized'
+        });
+    }
+    return auth;
+};
+const protectedRoute = (handler, { redirect =false  } = {
+})=>async (req, res)=>{
+        req.auth = authMiddleware(req, res, {
+            redirect
+        });
+        return handler(req, res);
+    }
+;
+
 });
 
-// UNUSED EXPORTS: setAccessToken, setSpotifyAuth
+/***/ }),
 
-;// CONCATENATED MODULE: external "redis"
-const external_redis_namespaceObject = require("redis");
-;// CONCATENATED MODULE: ./utils/cache.js
+/***/ 9867:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-const redis = (0,external_redis_namespaceObject.createClient)();
-const connectRedis = async ()=>{
-    try {
-        await redis.ping();
-        return;
-    } catch  {
-        await redis.connect();
-    }
-};
-const setSpotifyAuth = async (authKey, { accessToken , refreshToken  })=>{
-    await connectRedis();
-    if (!accessToken || !refreshToken) {
-        throw new Error('Invalid credentials for authentication cache');
-    }
-    await redis.set(`${authKey}-access`, accessToken);
-    await redis.set(`${authKey}-refresh`, refreshToken);
-};
-const setAccessToken = async (authKey, accessToken)=>{
-    await connectRedis();
-    await redis.set(`${authKey}-access`, accessToken);
-};
-const getSpotifyAuth = async (key)=>{
-    await connectRedis();
-    const accessToken = await redis.get(`${key}-access`);
-    const refreshToken = await redis.get(`${key}-refresh`);
-    return accessToken && refreshToken ? {
-        accessToken,
-        refreshToken
-    } : null;
-};
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
+/* unused harmony export getSession */
+/* harmony import */ var next_session__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7775);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([next_session__WEBPACK_IMPORTED_MODULE_0__]);
+next_session__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
 
+const getSession = (0,next_session__WEBPACK_IMPORTED_MODULE_0__["default"])();
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ((/* unused pure expression or super */ null && (getSession)));
+
+});
 
 /***/ }),
 
@@ -290,6 +324,13 @@ module.exports = require("@mui/material/styles");
 /***/ ((module) => {
 
 module.exports = require("jsonwebtoken");
+
+/***/ }),
+
+/***/ 9710:
+/***/ ((module) => {
+
+module.exports = require("lodash/fp");
 
 /***/ }),
 
@@ -321,10 +362,24 @@ module.exports = require("react/jsx-runtime");
 
 /***/ }),
 
+/***/ 7773:
+/***/ ((module) => {
+
+module.exports = require("redis");
+
+/***/ }),
+
 /***/ 796:
 /***/ ((module) => {
 
 module.exports = import("@stitches/react");;
+
+/***/ }),
+
+/***/ 7775:
+/***/ ((module) => {
+
+module.exports = import("next-session");;
 
 /***/ })
 
@@ -335,7 +390,7 @@ module.exports = import("@stitches/react");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__(3678));
+var __webpack_exports__ = __webpack_require__.X(0, [867], () => (__webpack_exec__(3678)));
 module.exports = __webpack_exports__;
 
 })();

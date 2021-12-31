@@ -38,13 +38,12 @@ __webpack_require__.r(__webpack_exports__);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_utils_auth__WEBPACK_IMPORTED_MODULE_0__]);
 _utils_auth__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
 
-const handler = (req, res)=>{
-    res.json({
+const handler = (req, res)=>res.json({
         message: 'Ok',
         sid: req.auth.queueId,
         href: `/sessions/${req.auth.queueId}`
-    });
-};
+    })
+;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_utils_auth__WEBPACK_IMPORTED_MODULE_0__/* .protectedRoute */ .IB)(handler, {
     redirect: true
 }));

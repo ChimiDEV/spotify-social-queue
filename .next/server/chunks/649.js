@@ -142,29 +142,139 @@ function Layout({ children  }) {
 
 /***/ }),
 
+/***/ 5604:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (/* binding */ MenuBar)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(997);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5692);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7915);
+/* harmony import */ var _mui_icons_material__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6689);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1853);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+const byValue = (/* unused pure expression or super */ null && ([
+    'wish',
+    'queue',
+    'poll'
+]));
+const byPath = {
+    '/wish': 0,
+    '/queue': 1,
+    '/poll': 2
+};
+// To be updated
+/**
+ *
+ * @param {{selectedLabel: 'wish'|'queue'|'poll', onChange: function}} props
+ * @returns
+ */ function MenuBar() {
+    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
+    const { 0: selectedLabel , 1: setLabel  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(byPath[router.pathname] || 0);
+    return(/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("span", {
+    }));
+};
+
+
+/***/ }),
+
+/***/ 1521:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (/* binding */ WishCard)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(997);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5692);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const AlbumImage = ({ src  })=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
+        children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("img", {
+            src: src,
+            alt: "Album Cover"
+        })
+    })
+;
+function WishCard({ song , onWish  }) {
+    return(/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Card, {
+        variant: "outlined",
+        sx: {
+            marginBottom: '15px',
+            backgroundColor: '#343a3f',
+            width: '350px'
+        },
+        children: [
+            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_1__.CardContent, {
+                children: [
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(AlbumImage, {
+                        src: song.album.image
+                    }),
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Typography, {
+                        variant: "h5",
+                        children: song.name
+                    }),
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Typography, {
+                        children: song.artist
+                    }),
+                    song.features && /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Typography, {
+                        sx: {
+                            mb: 1,
+                            color: '#a2a9b0'
+                        },
+                        children: song.features
+                    })
+                ]
+            }),
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.CardActions, {
+                children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Button, {
+                    size: "small",
+                    onClick: ()=>onWish(song.id)
+                    ,
+                    children: "W\xfcnschen"
+                })
+            })
+        ]
+    }));
+};
+
+
+/***/ }),
+
 /***/ 6649:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getServerSideProps": () => (/* binding */ getServerSideProps),
 /* harmony export */   "default": () => (/* binding */ Wish)
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(997);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5789);
-/* harmony import */ var _stitches_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(796);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5692);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6689);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _mui_material_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8442);
-/* harmony import */ var _mui_material_styles__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_mui_material_styles__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3830);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(1853);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_7__);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__, _components_Layout__WEBPACK_IMPORTED_MODULE_1__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__]);
-([_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__, _components_Layout__WEBPACK_IMPORTED_MODULE_1__, _stitches_react__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5692);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6689);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_ClipboardModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3830);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1853);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _utils_cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3867);
+/* harmony import */ var _components_WishCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(1521);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_4__, _components_Layout__WEBPACK_IMPORTED_MODULE_1__]);
+([_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_4__, _components_Layout__WEBPACK_IMPORTED_MODULE_1__] = __webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__);
 
 
 
@@ -175,12 +285,9 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_com
 
 const extractSpotifyId = (url)=>url.split('/').pop().split('?')[0]
 ;
-const putInQueue = async (sid, shareUrl)=>{
-    if (!shareUrl.startsWith('https://open.spotify.com/track')) {
-        // invalid spotify url
-        return;
-    }
-    await fetch(`/api/sessions/${sid}?track_id=${extractSpotifyId(shareUrl)}`, {
+const putInQueue = async (sid, trackId)=>{
+    const id = trackId.startsWith('https://open.spotify.com/track') ? extractSpotifyId(trackId) : trackId;
+    await fetch(`/api/sessions/${sid}?track_id=${id}`, {
         method: 'POST'
     });
 };
@@ -188,12 +295,34 @@ const searchForSongs = async (sid, searchValue)=>{
     const res = await fetch(`/api/sessions/${sid}/tracks?q=${searchValue}`);
     return res.json();
 };
+// Use SSR to check if the session exists
+async function getServerSideProps({ req  }) {
+    try {
+        const queueId = req.url.split('/').pop();
+        const auth = await (0,_utils_cache__WEBPACK_IMPORTED_MODULE_6__/* .getSpotifyAuth */ .ir)(queueId);
+        // Login again if no access token/refresh token exist in the auth cache
+        if (!auth) {
+            return {
+                notFound: true
+            };
+        }
+        return {
+            props: {
+                queueId
+            }
+        };
+    } catch  {
+        return {
+            notFound: true
+        };
+    }
+}
 function Wish() {
-    const { 0: searchValue , 1: setSearchValue  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)();
-    const { 0: spotifyUrl , 1: setSpotifyUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)();
-    const { 0: clipboardModal , 1: setClipboardModal  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
-    const { 0: searchResults , 1: setSearchResults  } = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]);
-    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_7__.useRouter)();
+    const { 0: searchValue , 1: setSearchValue  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)();
+    const { 0: spotifyUrl , 1: setSpotifyUrl  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)();
+    const { 0: clipboardModal , 1: setClipboardModal  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
+    const { 0: searchResults , 1: setSearchResults  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)([]);
+    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
     const closeModal = ()=>{
         setSpotifyUrl('');
         setClipboardModal(false);
@@ -213,7 +342,7 @@ function Wish() {
     };
     return(/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_components_Layout__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z, {
         children: [
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z, {
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_ClipboardModal__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z, {
                 onClose: closeModal,
                 onChange: (e)=>setSpotifyUrl(e.target.value)
                 ,
@@ -223,11 +352,11 @@ function Wish() {
                 },
                 open: clipboardModal
             }),
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Box, {
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Box, {
                 sx: {
                     paddingTop: '15px'
                 },
-                children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
+                children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.TextField, {
                     label: "Suche",
                     variant: "outlined",
                     size: "small",
@@ -238,16 +367,16 @@ function Wish() {
                     onKeyDown: searchOnEnter
                 })
             }),
-            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Box, {
+            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Box, {
                 sx: {
                     marginTop: '15px'
                 },
                 children: [
-                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Button, {
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Button, {
                         onClick: onClipboardButton,
                         children: "Aus Zwischenablage"
                     }),
-                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Button, {
+                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Button, {
                         variant: "contained",
                         onClick: async ()=>setSearchResults(await searchForSongs(router.query.sid, searchValue))
                         ,
@@ -255,16 +384,14 @@ function Wish() {
                     })
                 ]
             }),
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Box, {
+            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Box, {
                 sx: {
-                    color: 'white'
+                    color: 'white',
+                    marginTop: '20px'
                 },
-                children: searchResults.map((x, i)=>/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                        children: [
-                            x.name,
-                            " | ",
-                            x.artist
-                        ]
+                children: searchResults.map((song, i)=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_WishCard__WEBPACK_IMPORTED_MODULE_7__/* ["default"] */ .Z, {
+                        song: song,
+                        onWish: (songUri)=>putInQueue(router.query.sid, songUri)
                     }, i)
                 )
             })
