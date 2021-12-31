@@ -1,11 +1,9 @@
 import { Box, Button } from '@mui/material';
 import { styled } from '@stitches/react';
-import jwt from 'jsonwebtoken';
 import { useEffect, useState } from 'react';
 import RedirectModal from '../components/RedirectModal';
+import { verifyAuthentication } from '../utils/auth';
 import { getSpotifyAuth } from '../utils/cache';
-
-const { JWT_SECRET } = process.env;
 
 const CenteredHeadline = styled('h2', {
   display: 'block',
@@ -15,7 +13,9 @@ const CenteredHeadline = styled('h2', {
 
 // Use SSR to check if the user is logged in. This react page is the only "protected" page
 export async function getServerSideProps({ req, res }) {
-  if (!req.cookies['social-queue-auth']) {
+  const jwtPayload = verifyAuthentication(req);
+
+  if (!jwtPayload) {
     return {
       redirect: {
         destination: '/api/auth/login',
@@ -24,10 +24,7 @@ export async function getServerSideProps({ req, res }) {
   }
 
   try {
-    const { queueId } = jwt.verify(
-      req.cookies['social-queue-auth'],
-      JWT_SECRET,
-    );
+    const { queueId } = jwtPayload;
 
     const auth = await getSpotifyAuth(queueId);
 

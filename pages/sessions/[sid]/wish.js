@@ -1,29 +1,50 @@
 import Layout from '../../../components/Layout';
-import { styled } from '@stitches/react';
-import { Box, Button, Modal, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ClipboardModal from '../../../components/ClipboardModal';
 import { useRouter } from 'next/router';
+import { getSpotifyAuth } from '../../../utils/cache';
+import WishCard from '../../../components/WishCard';
 
 const extractSpotifyId = (url) => url.split('/').pop().split('?')[0];
 
-const putInQueue = async (sid, shareUrl) => {
-  if (!shareUrl.startsWith('https://open.spotify.com/track')) {
-    // invalid spotify url
-    return;
-  }
+const putInQueue = async (sid, trackId) => {
+  const id = trackId.startsWith('https://open.spotify.com/track')
+    ? extractSpotifyId(trackId)
+    : trackId;
 
-  await fetch(`/api/sessions/${sid}?track_id=${extractSpotifyId(shareUrl)}`, {
+  await fetch(`/api/sessions/${sid}?track_id=${id}`, {
     method: 'POST',
   });
 };
 
 const searchForSongs = async (sid, searchValue) => {
   const res = await fetch(`/api/sessions/${sid}/tracks?q=${searchValue}`);
-
   return res.json();
 };
+
+// Use SSR to check if the session exists
+export async function getServerSideProps({ req }) {
+  try {
+    const queueId = req.url.split('/').pop();
+    const auth = await getSpotifyAuth(queueId);
+
+    // Login again if no access token/refresh token exist in the auth cache
+    if (!auth) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: { queueId },
+    };
+  } catch {
+    return {
+      notFound: true,
+    };
+  }
+}
 
 export default function Wish() {
   const [searchValue, setSearchValue] = useState();
@@ -90,11 +111,13 @@ export default function Wish() {
           Suchen
         </Button>
       </Box>
-      <Box sx={{ color: 'white' }}>
-        {searchResults.map((x, i) => (
-          <div key={i}>
-            {x.name} | {x.artist}
-          </div>
+      <Box sx={{ color: 'white', marginTop: '20px' }}>
+        {searchResults.map((song, i) => (
+          <WishCard
+            key={i}
+            song={song}
+            onWish={(songUri) => putInQueue(router.query.sid, songUri)}
+          />
         ))}
       </Box>
     </Layout>

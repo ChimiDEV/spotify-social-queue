@@ -18,36 +18,39 @@ export default function MenuBar() {
   const [selectedLabel, setLabel] = useState(byPath[router.pathname] || 0);
 
   return (
-    <BottomNavigation
-      showLabels
-      sx={{
-        position: 'fixed',
-        top: 'auto',
-        bottom: 0,
-        width: '100vw',
-        backgroundColor: '#343a3f',
-      }}
-      value={selectedLabel}
-      onChange={(e, value) => {
-        setLabel(value);
-        router.push(`/${byValue[value]}`);
-      }}
-    >
-      <BottomNavigationAction
-        label="Song wünschen"
-        icon={<PlaylistAdd />}
-        sx={{ color: '#fff' }}
-      />
-      <BottomNavigationAction
-        label="Queue"
-        icon={<QueueMusic />}
-        sx={{ color: '#fff' }}
-      />
-      {/* <BottomNavigationAction
+    <span />
+    // <BottomNavigation
+    //   showLabels
+    //   sx={{
+    //     position: 'fixed',
+    //     top: 'auto',
+    //     bottom: 0,
+    //     width: '100vw',
+    //     backgroundColor: '#343a3f',
+    //   }}
+    //   value={selectedLabel}
+    //   onChange={(e, value) => {
+    //     setLabel(value);
+    //     router.push(`/${byValue[value]}`);
+    //   }}
+    // >
+    //   <BottomNavigationAction
+    //     label="Song wünschen"
+    //     icon={<PlaylistAdd />}
+    //     sx={{ color: '#fff' }}
+    //   />
+    //   <BottomNavigationAction
+    //     label="Queue"
+    //     icon={<QueueMusic />}
+    //     sx={{ color: '#fff' }}
+    //   />
+    // {
+    /* <BottomNavigationAction
         label="Einstellungen"
         icon={<AddBox />}
         sx={{ color: '#fff' }}
-      /> */}
-    </BottomNavigation>
+      /> */
+    // }
+    // </BottomNavigation>
   );
 }

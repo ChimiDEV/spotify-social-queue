@@ -33,21 +33,28 @@ export const verifyAuthentication = (req) => {
   }
 };
 
+export const authMiddleware = async (req, res, { redirect }) => {
+  const auth = verifyAuthentication(req);
+
+  if (auth === null) {
+    // if redirect is true, redirect to auth url. Keep original url in session
+    if (redirect) {
+      const session = await getSession(req, res);
+      session.originalUrl = req.url;
+
+      return res.redirect('/api/auth/login');
+    }
+
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  return auth;
+};
+
 export const protectedRoute =
   (handler, { redirect = false } = {}) =>
   async (req, res) => {
-    req.auth = verifyAuthentication(req);
+    req.auth = authMiddleware(req, res, { redirect });
 
-    if (req.auth === null) {
-      // if redirect is true, redirect to auth url. Keep original url in session
-      if (redirect) {
-        const session = await getSession(req, res);
-        session.originalUrl = req.url;
-
-        return res.redirect('/api/auth/login');
-      }
-
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
     return handler(req, res);
   };

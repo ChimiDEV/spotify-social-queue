@@ -1,7 +1,12 @@
 import _ from 'lodash/fp';
 import fetch from 'node-fetch';
+import formEncode from 'form-urlencoded';
 import { getSpotifyAuth, setAccessToken } from '../cache';
 import { ACCOUNT_URL, API_URL } from './const';
+
+const { CLIENT_ID, CLIENT_SECRET } = process.env;
+
+const toBase64 = (str) => Buffer.from(str).toString('base64');
 
 const refresh = async (authKey) => {
   const auth = (await getSpotifyAuth(authKey)) || authKey;
@@ -10,6 +15,7 @@ const refresh = async (authKey) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${toBase64(`${CLIENT_ID}:${CLIENT_SECRET}`)}`,
     },
     body: formEncode({
       refresh_token: auth.refreshToken,
@@ -35,6 +41,10 @@ export const apiRequest = async (
     body,
     ...options,
   });
+
+  if (!res.ok) {
+    throw new Error(res);
+  }
 
   if (res.status === 204) {
     return;
@@ -82,8 +92,10 @@ export const authenticatedApiRequest = async (
     });
 
   try {
-    return request(auth.accessToken);
+    const res = await request(auth.accessToken);
+    return res;
   } catch (err) {
-    return request(await refresh(authKey));
+    const res = request(await refresh(authKey));
+    return res;
   }
 };

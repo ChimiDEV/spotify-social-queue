@@ -34,6 +34,7 @@ export const getSpotifyAuth = async (key) => {
   await connectRedis();
   const accessToken = await redis.get(`${key}-access`);
   const refreshToken = await redis.get(`${key}-refresh`);
+
   return accessToken && refreshToken
     ? {
         accessToken,
