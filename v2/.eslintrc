@@ -1,0 +1,8 @@
+{
+  "extends": ["airbnb-base", "prettier", "plugin:json/recommended"],
+  "plugins": ["jest", "json"],
+  "env": {
+    "jest/globals": true,
+    "es2020": true
+  }
+}
